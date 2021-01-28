@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des formulaires</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+</head>
+<body>  
+    
+
+    <h1>Liste des étudiants</h1>
+    <ul id="listeEtu">
+    </ul>
+    
+    
+    <script>
+        console.log("DEBUT");
+        //création de la liste des étudiants
+        let listeEtudiants=[
+            {'nom':'titi',"github":'Aissatou-Cis','besoins':['html','javascript']}
+            ,{'nom':'tata','github':'tat','besoins':['html','css']}
+            ,{'nom':'toto','github':'totoot'}
+            ,{'nom':'Machin truc chouette','github':'totoot'}
+        ];
+        //écrire la liste dans la console
+        console.log(listeEtudiants);
+
+        /*boucler sur les élément de la liste
+        listeEtudiants.forEach(d=>{
+            //console.log(d);
+            ajoutLi(d,'listeEtu');
+        });
+        */
+
+
+        console.log("récupère le csv");
+        let urlCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQHni5Lu--I9WKTWGHOJ3_SBRW47sPTvxxRN6FOaGchhMztr4gm3I5C91EJq1CcGOsmfsOfa2f7PfrF/pub?gid=1651539069&single=true&output=csv" ;
+        //urlCSV = "notesM2GSI.csv";
+        //urlCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgaDT2x-KZ20bSSrrnHlnGKrUa5OKs25322kfizkaSXx6hUCQ4qXylp7DQk_N0Sqirp6LkqGsDTIb0/pub?gid=638149350&single=true&output=csv";
+        d3.csv(urlCSV).then(function(data) {
+            console.log("csv récupéré");
+            console.log(data);
+            data.forEach(d=>{
+                //console.log(d);
+                ajoutLi(d,'listeEtu');
+            });
+
+        });
+        console.log("Fait autre chose");
+
+
+    function ajoutLi(d, idListe) {
+        var ul = document.getElementById(idListe);
+        var liEtu = document.createElement("li");
+        var liTxt = document.createTextNode(d['Votre prénom']+' '+d['Votre nom']+' ('+d['Votre compte GitHub']+')');
+        //var liTxt = document.createTextNode(d['URL vers la cartographie ?']+' = '+d['Qualité esthétique de la cartographie ?']);
+        liEtu.appendChild(liTxt);
+
+        //afficher les lien vers le formulaire et la liste des réponse
+        var ulLien = document.createElement("ul");
+        var liLien = document.createElement("li");
+        var urlLien = "https://samszo.github.io/M2GSI_20-21_ProgramSystem/"+d['Votre compte GitHub'];
+        liLien.innerHTML = '<a href="'+urlLien+'/formulaire.html'+'" >lien vers le formulaire</a>';
+        ulLien.appendChild(liLien);
+        liLien = document.createElement("li");
+        liLien.innerHTML = '<a href="'+urlLien+'/liste-formulaire.html'+'" >lien vers les réponses</a>';
+        ulLien.appendChild(liLien);
+        liEtu.appendChild(ulLien);            
+
+        /*afficher toute les propriété d'un objet
+        var ulProp = document.createElement("ul");
+        for (const property in d) {
+            var liProp = document.createElement("li");
+            var PropTxt = document.createTextNode(d[property]);
+            liProp.appendChild(PropTxt);
+            ulProp.appendChild(liProp);
+        }
+        liEtu.appendChild(ulProp);            
+        */
+        ul.appendChild(liEtu);
+    }
+
+    console.log('FIN');
+    </script>
+</body>
+</html>
